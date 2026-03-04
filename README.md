@@ -10,6 +10,8 @@ I've been learning and developing it for almost a month before the first commit.
 
 - Added a /users/me route so there is no need to provide the ID inside the url. Instead, the user ID is determined from the bearer token (the logic behind this change is simple - if you put another user's ID in the URL, you can't access it, so there's no reason to make a route for it)
 
+- User passwords hidden from select operations by default
+
 - No Arcjet (the free tier is too short)
 
 more updates possible in the future
