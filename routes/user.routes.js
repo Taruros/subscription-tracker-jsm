@@ -5,19 +5,13 @@ import {
   getCurrentUser,
   // updateUser,
   updateCurrentUser,
+  updateCurrentPassword,
   // deleteUser,
   deleteCurrentUser,
 } from "../controllers/user.controller.js";
 import authorize from "../middleware/auth.middleware.js";
 
 const userRouter = Router();
-
-// TODO: Simplify user routes. Use authorize for obtaining user info
-
-// GET    /users/me
-// PATCH  /users/me
-// PATCH  /users/me/password
-// DELETE /users/me
 
 userRouter.get("/", getUsers);
 
@@ -32,7 +26,8 @@ userRouter.patch("/me", authorize, updateCurrentUser);
 
 // TODO: Add an option to change the user's password
 
-userRouter.patch("/:id/update-password", (req, res) => res.send("bomba"));
+// userRouter.patch("/:id/update-password", (req, res) => res.send("bomba"));
+userRouter.patch("/me/update-password", authorize, updateCurrentPassword);
 
 // userRouter.delete("/:id", authorize, deleteUser);
 userRouter.delete("/:id", authorize, deleteCurrentUser);

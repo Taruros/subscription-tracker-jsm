@@ -1,4 +1,6 @@
 import User from "../models/user.model.js";
+import bcrypt from "bcryptjs";
+import AppError from "../utils/apperror.js";
 
 export const getUsers = async (req, res, next) => {
   try {
@@ -117,6 +119,33 @@ export const updateCurrentUser = async (req, res, next) => {
     }
 
     res.status(200).json({ success: true, data: user });
+  } catch (error) {
+    next(error);
+  }
+};
+
+export const updateCurrentPassword = async (req, res, next) => {
+  try {
+    const { currentPassword, newPassword } = req.body;
+
+    const user = await User.findById(req.user._id).select("+password");
+
+    if (!user) {
+      throw new AppError("User not found", 404);
+    }
+
+    const isMatch = await bcrypt.compare(currentPassword, user.password);
+
+    if (!isMatch) {
+      throw new AppError("Incorrect password", 401);
+    }
+
+    user.password = newPassword;
+    await user.save();
+
+    res
+      .status(200)
+      .json({ status: "success", message: "Password updated successfully" });
   } catch (error) {
     next(error);
   }
