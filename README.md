@@ -6,7 +6,7 @@ I've been learning and developing it for almost a month before the first commit.
 
 ### Notable changes:
 
-- Password hashing logic moved to an on-save pre function (better for password updates)
+- Password hashing logic moved to an on-save pre function (better for password updates, also fixes password minimum length not working)
 
 - Added a /users/me route so there is no need to provide the ID inside the url. Instead, the user ID is determined from the bearer token (the logic behind this change is simple - if you put another user's ID in the URL, you can't access it, so there's no reason to make a route for it)
 

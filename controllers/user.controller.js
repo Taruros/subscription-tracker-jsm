@@ -10,9 +10,25 @@ export const getUsers = async (req, res, next) => {
   }
 };
 
-export const getUser = async (req, res, next) => {
+// export const getUser = async (req, res, next) => {
+//   try {
+//     const user = await User.findById(req.params.id);
+
+//     if (!user) {
+//       const error = new Error("User not found");
+//       error.statusCode = 404;
+//       throw error;
+//     }
+
+//     res.status(200).json({ success: true, data: user });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+export const getCurrentUser = async (req, res, next) => {
   try {
-    const user = await User.findById(req.params.id);
+    const user = await User.findById(req.user._id);
 
     if (!user) {
       const error = new Error("User not found");
@@ -26,7 +42,50 @@ export const getUser = async (req, res, next) => {
   }
 };
 
-export const updateUser = async (req, res, next) => {
+// export const updateUser = async (req, res, next) => {
+//   const filterAllowedFields = (obj, ...allowedFields) => {
+//     const filtered = {};
+//     Object.keys(obj).forEach((key) => {
+//       if (allowedFields.includes(key)) {
+//         filtered[key] = obj[key];
+//       }
+//     });
+//     return filtered;
+//   };
+
+//   try {
+//     if (req.user.id !== req.params.id) {
+//       const error = new Error("Unauthorized");
+//       error.statusCode = 403;
+//       throw error;
+//     }
+
+//     if (req.body.password) {
+//       const error = new Error("Use /update-password to change the password");
+//       error.statusCode = 400;
+//       throw error;
+//     }
+
+//     const filteredUpdate = filterAllowedFields(req.body, "name", "email");
+
+//     const user = await User.findByIdAndUpdate(req.params.id, filteredUpdate, {
+//       new: true,
+//       runValidators: true,
+//     });
+
+//     if (!user) {
+//       const error = new Error("User not found");
+//       error.statusCode = 404;
+//       throw error;
+//     }
+
+//     res.status(200).json({ success: true, data: user });
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+export const updateCurrentUser = async (req, res, next) => {
   const filterAllowedFields = (obj, ...allowedFields) => {
     const filtered = {};
     Object.keys(obj).forEach((key) => {
@@ -38,12 +97,6 @@ export const updateUser = async (req, res, next) => {
   };
 
   try {
-    if (req.user.id !== req.params.id) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 403;
-      throw error;
-    }
-
     if (req.body.password) {
       const error = new Error("Use /update-password to change the password");
       error.statusCode = 400;
@@ -52,7 +105,7 @@ export const updateUser = async (req, res, next) => {
 
     const filteredUpdate = filterAllowedFields(req.body, "name", "email");
 
-    const user = await User.findByIdAndUpdate(req.params.id, filteredUpdate, {
+    const user = await User.findByIdAndUpdate(req.user._id, filteredUpdate, {
       new: true,
       runValidators: true,
     });
@@ -69,15 +122,31 @@ export const updateUser = async (req, res, next) => {
   }
 };
 
-export const deleteUser = async (req, res, next) => {
-  try {
-    if (req.user.id !== req.params.id) {
-      const error = new Error("Unauthorized");
-      error.statusCode = 403;
-      throw error;
-    }
+// export const deleteUser = async (req, res, next) => {
+//   try {
+//     if (req.user.id !== req.params.id) {
+//       const error = new Error("Unauthorized");
+//       error.statusCode = 403;
+//       throw error;
+//     }
 
-    const user = await User.findByIdAndDelete(req.params.id);
+//     const user = await User.findByIdAndDelete(req.params.id);
+
+//     if (!user) {
+//       const error = new Error("User not found");
+//       error.statusCode = 404;
+//       throw error;
+//     }
+
+//     res.status(204).send();
+//   } catch (error) {
+//     next(error);
+//   }
+// };
+
+export const deleteCurrentUser = async (req, res, next) => {
+  try {
+    const user = await User.findByIdAndDelete(req.user._id);
 
     if (!user) {
       const error = new Error("User not found");
