@@ -24,8 +24,6 @@ userRouter.get("/me", authorize, getCurrentUser);
 // userRouter.patch("/:id", authorize, updateUser);
 userRouter.patch("/me", authorize, updateCurrentUser);
 
-// TODO: Add an option to change the user's password
-
 // userRouter.patch("/:id/update-password", (req, res) => res.send("bomba"));
 userRouter.patch("/me/update-password", authorize, updateCurrentPassword);
 
