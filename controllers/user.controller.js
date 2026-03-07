@@ -1,6 +1,6 @@
 import User from "../models/user.model.js";
 import bcrypt from "bcryptjs";
-import AppError from "../utils/apperror.js";
+import AppError from "../utils/AppError.js";
 
 export const getUsers = async (req, res, next) => {
   try {
@@ -33,9 +33,7 @@ export const getCurrentUser = async (req, res, next) => {
     const user = await User.findById(req.user._id);
 
     if (!user) {
-      const error = new Error("User not found");
-      error.statusCode = 404;
-      throw error;
+      throw new AppError("User not found", 404);
     }
 
     res.status(200).json({ success: true, data: user });
@@ -100,9 +98,7 @@ export const updateCurrentUser = async (req, res, next) => {
 
   try {
     if (req.body.password) {
-      const error = new Error("Use /update-password to change the password");
-      error.statusCode = 400;
-      throw error;
+      throw new AppError("Use /update-password to change the password", 400);
     }
 
     const filteredUpdate = filterAllowedFields(req.body, "name", "email");
@@ -113,9 +109,7 @@ export const updateCurrentUser = async (req, res, next) => {
     });
 
     if (!user) {
-      const error = new Error("User not found");
-      error.statusCode = 404;
-      throw error;
+      throw new AppError("User not found", 404);
     }
 
     res.status(200).json({ success: true, data: user });

@@ -1,5 +1,5 @@
 import Subscription from "../models/subscription.model.js";
-import AppError from "../utils/apperror.js";
+import AppError from "../utils/AppError.js";
 
 export const getAllSubscriptions = async (req, res, next) => {
   try {
@@ -19,9 +19,7 @@ export const getSubscriptionDetails = async (req, res, next) => {
     });
 
     if (!subscription) {
-      const error = new Error("Subscription not found");
-      error.statusCode = 404;
-      throw error;
+      throw new AppError("Subscription not found", 404);
     }
 
     res.status(200).json({ success: true, data: subscription });
@@ -55,9 +53,7 @@ export const updateSubscription = async (req, res, next) => {
     );
 
     if (!subscription) {
-      const error = new Error("Subscription not found");
-      error.statusCode = 404;
-      throw error;
+      throw new AppError("Subscription not found", 404);
     }
 
     res.status(200).json({ success: true, data: subscription });
@@ -74,9 +70,7 @@ export const deleteSubscription = async (req, res, next) => {
     });
 
     if (!subscription) {
-      const error = new Error("Subscription not found");
-      error.statusCode = 404;
-      throw error;
+      throw new AppError("Subscription not found", 404);
     }
 
     res.status(204).send();

@@ -2,6 +2,7 @@ import mongoose from "mongoose";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import User from "../models/user.model.js";
+import AppError from "../utils/AppError.js";
 import { JWT_SECRET, JWT_EXPIRES_IN } from "../config/env.js";
 
 export const signUp = async (req, res, next) => {
@@ -13,9 +14,7 @@ export const signUp = async (req, res, next) => {
 
     const existingUser = await User.findOne({ email });
     if (existingUser) {
-      const error = new Error("User already exists");
-      error.statusCode = 409;
-      throw error;
+      throw new AppError("User already exists", 409);
     }
 
     // TODO: Move the password hashing to a user pre-save middleware
@@ -53,9 +52,7 @@ export const signIn = async (req, res, next) => {
     const user = await User.findOne({ email }).select("+password");
 
     if (!user || !(await bcrypt.compare(password, user.password))) {
-      const error = new Error("Invalid email or password");
-      error.statusCode = 401;
-      throw error;
+      throw new AppError("Invalid email or password", 401);
     }
 
     const token = jwt.sign({ userId: user._id }, JWT_SECRET, {
