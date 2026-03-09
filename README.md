@@ -7,11 +7,10 @@ I've been learning and developing it for almost a month before the first commit.
 ### Notable changes:
 
 - Password hashing logic moved to an on-save pre function (better for password updates, also fixes password minimum length not working)
-
 - Added a /users/me route so there is no need to provide the ID inside the url. Instead, the user ID is determined from the bearer token (the logic behind this change is simple - if you put another user's ID in the URL, you can't access it, so there's no reason to make a route for it)
-
 - User passwords hidden from select operations by default
-
-- No Arcjet (the free tier is too short)
+- No Arcjet (paid slop), rate limiting is done with express-rate-limit
+- Error handling uses AppError class instead of the three liner (more organized)
+- Other slight changes and optimizations
 
 more updates possible in the future
