@@ -13,8 +13,6 @@ import {
 
 const subscriptionRouter = Router();
 
-subscriptionRouter.get("/", getAllSubscriptions);
-
 // subscriptionRouter.get("/user/:id", authorize, getUserSubscriptions);
 subscriptionRouter.get("/me", authorize, getCurrentUserSubscriptions);
 
@@ -24,6 +22,8 @@ subscriptionRouter.get("/upcoming-renewals", (req, res) =>
 );
 
 subscriptionRouter.get("/:id", authorize, getSubscriptionDetails);
+
+subscriptionRouter.get("/", getAllSubscriptions);
 
 subscriptionRouter.post("/", authorize, createSubscription);
 
