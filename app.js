@@ -8,6 +8,7 @@ import { rateLimiter, authLimiter } from "./middleware/rateLimiter.js";
 import authRouter from "./routes/auth.routes.js";
 import userRouter from "./routes/user.routes.js";
 import subscriptionRouter from "./routes/subscription.routes.js";
+import workflowRouter from "./routes/workflow.routes.js";
 
 const app = express();
 
@@ -21,6 +22,7 @@ app.use("/api", rateLimiter);
 app.use("/api/v1/auth", authRouter);
 app.use("/api/v1/users", userRouter);
 app.use("/api/v1/subscriptions", subscriptionRouter);
+app.use("/api/v1/workflows", workflowRouter);
 
 app.use((req, res) => {
   res.status(404).json({ message: "Route not found" });
